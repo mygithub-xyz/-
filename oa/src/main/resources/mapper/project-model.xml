@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 直接使用代理的方式 -->
+<mapper namespace="com.fuyang.project.dao.ProjectModelDao">
+    <resultMap id="MODULEMAP" type="ModuleExtends">
+        <id column="id" property="id"/>
+        <result column="analysis_fk" property="analysisFk"/>
+        <result column="modname" property="modname"/>
+        <result column="level" property="level"/>
+        <result column="simpledis" property="simpledis"/>
+        <result column="detaileddis" property="detaileddis"/>
+        <result column="remark" property="remark"/>
+        <association property="analysisExtends" javaType="AnalysisExtends" column="analysis_fk"  select="com.fuyang.project.dao.ProjectNeedDao.selectProjectNeedById" >
+        </association>
+    </resultMap>
+    <!--查询所有-->
+    <select id="queryProjectModelList" resultMap="MODULEMAP">
+		select * from module
+	</select>
+    <resultMap id="MODULEMAP1" type="Module">
+        <id column="id" property="id"/>
+        <result column="analysis_fk" property="analysisFk"/>
+        <result column="modname" property="modname"/>
+        <result column="level" property="level"/>
+        <result column="simpledis" property="simpledis"/>
+        <result column="detaileddis" property="detaileddis"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+    <!--按照分析id查模块-->
+    <select id="selectModuleByAid" parameterType="int" resultMap="MODULEMAP1">
+		select * from module where analysis_fk = #{aid}
+	</select>
+    <select id="selectModuleById" parameterType="int" resultMap="MODULEMAP">
+		select * from module where id = #{id}
+	</select>
+</mapper>

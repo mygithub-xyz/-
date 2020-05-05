@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuyang.indexvalue.dao.IndexvalueDao">
+
+    <resultMap type="IndexvalueExtends" id="IndexvalueMap">
+        <result property="inId" column="in_id" jdbcType="INTEGER"/>
+        <result property="inTurnover" column="in_turnover" jdbcType="OTHER"/>
+        <result property="inBusiness" column="in_business" jdbcType="VARCHAR"/>
+        <result property="comnameFk" column="comname_fk" jdbcType="INTEGER"/>
+        <result property="inRemark" column="in_remark" jdbcType="VARCHAR"/>
+        <result property="inFile" column="in_file" jdbcType="VARCHAR"/>
+        <result property="empFk5" column="emp_fk5" jdbcType="INTEGER"/>
+        <result property="inStarttime" column="in_starttime" jdbcType="OTHER"/>
+        <result property="inEndtime" column="in_endtime" jdbcType="OTHER"/>
+        <result property="inUpdatetime" column="in_updatetime" jdbcType="OTHER"/>
+        <association property="employee" javaType="Employee" column="emp_fk5" select="com.fuyang.employee.dao.EmployeeDao.selectEmployeeByEid"></association>
+        <association property="datacollect" javaType="Datacollect" column="comname_fk" select="com.fuyang.datacollect.dao.DatacollectDao.queryById"></association>
+    </resultMap>
+    <!--查询所有-->
+    <select id="selectIndexvalue" resultMap="IndexvalueMap">
+        select *from indexvalue
+    </select>
+    <!--新增所有列-->
+    <insert id="add" parameterType="Indexvalue">
+        insert into crmpro.indexvalue(in_turnover, in_business, comname_fk, in_remark, in_file, emp_fk5, in_starttime, in_endtime)
+        values (#{inTurnover}, #{inBusiness}, #{comnameFk}, #{inRemark}, #{inFile}, #{empFk5}, #{inStarttime}, #{inEndtime})
+    </insert>
+</mapper>

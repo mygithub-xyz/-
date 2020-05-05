@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 直接使用代理的方式 -->
+<mapper namespace="com.fuyang.task.dao.TaskDao">
+
+	<insert id="insert" parameterType="Task">
+		INSERT INTO task 
+		(
+			starttime, 
+			endtime, 
+			level, 
+			remark, 
+			fun_fk, 
+			emp_fk2, 
+			emp_fk, 
+			tasktitle, 
+			status
+		)
+		VALUES
+		(
+			#{starttime},
+			#{endtime},
+			#{level},
+			#{remark},
+			#{funFk},
+			#{empFk2},
+			#{empFk},
+			#{tasktitle},
+			#{status}
+		)
+	</insert>
+</mapper>

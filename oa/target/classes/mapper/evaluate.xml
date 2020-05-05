@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 直接使用代理的方式 -->
+<mapper namespace="com.fuyang.notice.dao.EvaluateDao">
+
+	<resultMap id="EVALUATEMAP" type="EvaluateExtends">
+		<id column="evaid" property="evaid"/>
+		<result column="forum_fk" property="forumFk"/>
+		<result column="emp_fk4" property="empFk4"/>
+		<result column="evaid_fk" property="evaidFk"/>
+		<result column="evacontent" property="evacontent"/>
+		<result column="evatime" property="evatime"/>
+		<association property="employeeExtends" javaType="EmployeeExtends" column="emp_fk4" select="com.fuyang.employee.dao.EmployeeDao.selectEmployeeByEid"></association>
+		<collection property="list" ofType="EvaluateExtends" column="evaid" select="com.fuyang.notice.dao.EvaluateDao.selectEvaluateByEid"></collection>
+	</resultMap>
+	<!--查询所有-->
+	<select id="selectEvaluteByFid" resultMap="EVALUATEMAP">
+		/*一级评论*/
+		select * from evaluate where forum_fk = #{id} and evaid_fk IS NULL
+	</select>
+
+	<!--查询二级评论-->
+	<select id="selectEvaluateByEid" parameterType="int" resultMap="EVALUATEMAP">
+		/*二级评论*/
+		SELECT * FROM evaluate WHERE evaid_fk = #{eid}
+	</select>
+
+
+	<!--插入操作-->
+	<insert id="insert" parameterType="Evaluate">
+		INSERT INTO evaluate
+		(
+			forum_fk,
+			emp_fk4,
+			evaid_fk,
+			evacontent,
+			evatime
+		)
+		VALUES
+		(
+			#{forumFk},
+			#{empFk4},
+			#{evaidFk},
+			#{evacontent},
+			#{evatime}
+		)
+	</insert>
+</mapper>

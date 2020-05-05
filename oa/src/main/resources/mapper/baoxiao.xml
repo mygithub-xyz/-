@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 直接使用代理的方式 -->
+<mapper namespace="com.fuyang.baoxiao.dao.BaoxiaoDao">
+
+	<resultMap id="BAOXIAOMAP" type="BaoxiaoExtends">
+		<id column="bxid" property="bxid"/>
+		<result column="paymode" property="paymode"/>
+		<result column="totalmoney" property="totalmoney"/>
+		<result column="bxtime" property="bxtime"/>
+		<result column="bxremark" property="bxremark"/>
+		<result column="bxstatus" property="bxstatus"/>
+		<result column="emp_fk" property="empFk"/>
+        <association property="employeeExtends" javaType="EmployeeExtends" column="emp_fk" select="com.fuyang.employee.dao.EmployeeDao.selectEmployeeByEid"></association>
+	    <association property="expendituretype" javaType="Expendituretype" column="paymode" select="com.fuyang.baoxiao.dao.BaoxiaoTypeDao.selectTypeById"></association>
+        <collection property="baoxiaoreplyList" ofType="Baoxiaoreply" column="bxid" select="com.fuyang.baoxiao.dao.BaoxiaoReplyDao.selectReplyByBxid"></collection>
+    </resultMap>
+	<!--按照报销人id查报销-->
+	<select id="selectBaoxiaoByEid" resultMap="BAOXIAOMAP">
+		select * from baoxiao where emp_fk = #{eid}
+	</select>
+
+    <!--按照状态查报销-->
+    <select id="selectBaoxiaoByStatus" parameterType="int" resultMap="BAOXIAOMAP">
+        select *
+        from baoxiao
+        where bxstatus = #{status}
+        order by bxtime
+    </select>
+
+    <!--按照id查数据-->
+    <select id="selectBaoxiaoById" parameterType="string" resultMap="BAOXIAOMAP">
+        select *
+        from baoxiao
+        where bxid = #{id}
+    </select>
+
+	<!--增加功能-->
+	<insert id="insert" parameterType="Baoxiao">
+		<selectKey resultType="string" keyColumn="bxid" keyProperty="bxid" order="BEFORE">
+			select uuid()
+		</selectKey>
+		INSERT INTO baoxiao 
+		(
+			bxid, 
+			paymode, 
+			totalmoney, 
+			bxtime, 
+			bxremark, 
+			emp_fk
+		)
+		VALUES
+		(
+			#{bxid},
+			#{paymode},
+			#{totalmoney},
+			#{bxtime},
+			#{bxremark},
+			#{empFk}
+		)
+	</insert>
+
+    <!--修改操作-->
+    <update id="update" parameterType="Baoxiao">
+        UPDATE baoxiao 
+        SET
+            paymode = #{paymode} ,
+            totalmoney = #{totalmoney} ,
+            bxtime = #{bxtime} ,
+            bxremark = #{bxremark} ,
+            bxstatus = #{bxstatus} ,
+            emp_fk = #{empFk}
+        WHERE
+            bxid = #{bxid}
+    </update>
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 直接使用代理的方式 -->
+<mapper namespace="com.fuyang.project.dao.ProjectFunctionDao">
+
+	<!--查询所有-->
+    <resultMap id="FEX" type="FunctionExtends">
+        <id  column="id" property="id"></id>
+        <result  column="proname" property="proname"></result>
+        <result  column="analysisname" property="analysisname"></result>
+        <result  column="modele_fk" property="modeleFk"></result>
+        <result  column="functionname" property="functionname"></result>
+        <result  column="level" property="level"></result>
+        <result  column="simpledis" property="simpledis"></result>
+        <result  column="detaileddis" property="detaileddis"></result>
+        <result  column="remark" property="remark"></result>
+        <association property="moduleExtends" javaType="ModuleExtends" column="modele_fk" select="com.fuyang.project.dao.ProjectModelDao.selectModuleById"></association>
+     </resultMap>
+	<select id="selectProjectFunctionList" resultMap="FEX">
+     select * from function
+	</select>
+    <!--查询所有-->
+    <select id="selectFunctionByMid" parameterType="int" resultType="Function">
+		select * from function where modele_fk = #{mid}
+	</select>
+</mapper>

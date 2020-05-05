@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 直接使用代理的方式 -->
+<mapper namespace="com.fuyang.customer.dao.CustomerDao">
+
+	<!--查询所有-->
+	<select id="selectCustomers" resultType="Customer">
+		select * from customer
+	</select>
+    <!--通过id查询-->
+    <select id="selectCustomerById" parameterType="int" resultType="Customer">
+		select * from customer where id=#{id}
+	</select>
+    <!--按照一组ids查一组数据-->
+    <select id="selectCustomerByIds" parameterType="map" resultType="Customer">
+        select * from customer
+        <where>
+            <foreach collection="ids" item="id" separator="," open="id in(" close=")">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+    <!--通过condition查询-->
+    <select id="selectCustomerListByCondition" parameterType="Condition" resultType="Customer">
+        select * from customer
+        <where>
+            <if test="conname != null and conname.length > 0">
+                ${conname} like #{keyword}
+            </if>
+        </where>
+        <if test="orderby != null and orderby.length > 0">
+            order by ${orderby} desc
+        </if>
+    </select>
+    <!--查询客户，但是限制条数-->
+    <select id="queryCustomerListLimit" parameterType="int" resultType="Customer">
+        select * from customer
+        <if test="name != null and name.length > 0">
+            where comname like #{name}
+        </if>
+        limit #{i}
+    </select>
+    <!--批量删除-->
+    <delete id="batchDelete" parameterType="map">
+    delete from customer
+    <where>
+        <foreach collection="ids" item="id" separator="," open="id in(" close=")">
+            #{id}
+        </foreach>
+    </where>
+
+    </delete>
+    <!--添加customer信息-->
+    <insert id="insert" parameterType="Customer">
+    insert into customer(
+              comname,
+              companyperson,
+              comaddress,
+              comphone,
+              camera,
+              present,
+              remark,
+              addtime
+              )
+        values(
+            #{comname},
+            #{companyperson},
+            #{comaddress},
+            #{comphone} ,
+            #{camera} ,
+            #{present},
+            #{remark} ,
+            #{addtime}
+              )
+    </insert>
+    <!--通过id修改customer信息-->
+    <update id="editCustomerById" parameterType="Customer">
+		UPDATE customer
+		SET
+			comname = #{comname} ,
+			companyperson = #{companyperson} ,
+			comaddress = #{comaddress} ,
+			comphone = #{comphone} ,
+			camera = #{camera} ,
+			present = #{present} ,
+			remark = #{remark} ,
+			addtime = #{addtime}
+		WHERE
+			id = #{id}
+	</update>
+</mapper>

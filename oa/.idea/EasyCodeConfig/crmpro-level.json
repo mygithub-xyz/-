@@ -1,0 +1,31 @@
+{
+  "name" : "Level",
+  "comment" : null,
+  "fullColumn" : [ {
+    "name" : "jid",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "jname",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "jdis",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  } ],
+  "pkColumn" : null,
+  "otherColumn" : null,
+  "savePackageName" : "com.fuyang.level",
+  "savePath" : "./src/main/java/com/fuyang/level",
+  "saveModelName" : "oa"
+}

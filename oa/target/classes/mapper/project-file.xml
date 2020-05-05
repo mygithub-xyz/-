@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 直接使用代理的方式 -->
+<mapper namespace="com.fuyang.project.dao.ProjectFileDao">
+<resultMap id="Files" type="AttachmentExtends">
+    <id column="id" property="id"></id>
+    <result column="pro_fk " property="proFk"></result>
+    <result column="attname " property="attname"></result>
+    <result column="attdis" property="attdis"></result>
+    <result column="remark" property="remark"></result>
+    <result column="path" property="path"></result>
+    <association property="projectExtends"  javaType="ProjectExtends" column="pro_fk" select="com.fuyang.project.dao.ProjectBaseDao.queryProjectById"></association>
+</resultMap>
+	<!--查询所有-->
+	<select id="selectFileList" resultType="Attachment" resultMap="Files">
+		select * from attachment
+	</select>
+    <!--增加功能-->
+    <insert id="insert" parameterType="Attachment">
+        INSERT INTO attachment
+        (
+            pro_fk,
+            attname,
+            attdis,
+            remark,
+            path
+        )
+        VALUES
+        (
+            #{proFk},
+            #{attname},
+            #{attdis},
+            #{remark},
+            #{path}
+        )
+    </insert>
+</mapper>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 直接使用代理的方式 -->
+<mapper namespace="com.fuyang.notice.dao.ForumDao">
+
+	<resultMap id="FORUMPOSTMAP" type="ForumpostExtends">
+		<id column="forumid" property="forumid"/>
+		<result column="forumtitle" property="forumtitle"/>
+		<result column="forumcontent" property="forumcontent"/>
+		<result column="emp_fk3" property="empFk3"/>
+		<result column="createtime" property="createtime"/>
+		<association property="employeeExtends" javaType="EmployeeExtends" column="emp_fk3" select="com.fuyang.employee.dao.EmployeeDao.selectEmployeeByEid"></association>
+		<collection property="list" ofType="EvaluateExtends" column="forumid" select="com.fuyang.notice.dao.EvaluateDao.selectEvaluteByFid"></collection>
+	</resultMap>
+	<!--查询所有-->
+	<select id="selectForumpostList" resultMap="FORUMPOSTMAP">
+		select * from forumpost
+	</select>
+
+	<!--主键查询-->
+	<select id="selectForumpostById" parameterType="int" resultMap="FORUMPOSTMAP">
+		select * from forumpost where forumid = #{id}
+	</select>
+
+	<!--插入操作-->
+	<insert id="insert" parameterType="Forumpost">
+		INSERT INTO forumpost 
+		(
+			forumtitle, 
+			forumcontent, 
+			emp_fk3, 
+			createtime
+		)
+		VALUES
+		(
+			#{forumtitle},
+			#{forumcontent},
+			#{empFk3},
+			#{createtime}
+		)
+	</insert>
+</mapper>

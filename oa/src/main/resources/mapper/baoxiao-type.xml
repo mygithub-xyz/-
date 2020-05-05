@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 直接使用代理的方式 -->
+<mapper namespace="com.fuyang.baoxiao.dao.BaoxiaoTypeDao">
+
+	<!--查询所有-->
+	<select id="selectTypeList" resultType="Expendituretype">
+		select * from expendituretype
+	</select>
+
+	<select id="selectTypeById" parameterType="int" resultType="Expendituretype">
+		select * from expendituretype where etid = #{id}
+	</select>
+</mapper>

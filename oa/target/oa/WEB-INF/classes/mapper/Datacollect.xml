@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuyang.datacollect.dao.DatacollectDao">
+
+    <resultMap type="Datacollect" id="DatacollectMap">
+        <result property="daid" column="daid" jdbcType="INTEGER"/>
+        <result property="dacname" column="dacname" jdbcType="VARCHAR"/>
+        <result property="daturnover" column="daturnover" jdbcType="OTHER"/>
+        <result property="datime" column="datime" jdbcType="OTHER"/>
+        <result property="dabusiness" column="dabusiness" jdbcType="VARCHAR"/>
+        <result property="dasuperiority" column="dasuperiority" jdbcType="VARCHAR"/>
+        <result property="dainforiority" column="dainforiority" jdbcType="VARCHAR"/>
+        <result property="dasort" column="dasort" jdbcType="INTEGER"/>
+        <result property="empcount" column="empcount" jdbcType="INTEGER"/>
+        <result property="buildtime" column="buildtime" jdbcType="OTHER"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="daother" column="daother" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!--查询所有-->
+    <select id="queryById" resultMap="DatacollectMap">
+        select
+          daid, dacname, daturnover, datime, dabusiness, dasuperiority, dainforiority, dasort, empcount, buildtime, remark, daother
+        from crmpro.datacollect
+        where daid = #{daid}
+    </select>
+    <select id="queryDatacollectList" resultMap="DatacollectMap">
+        select * from datacollect
+    </select>
+    <select id="queryPng" parameterType="string" resultMap="DatacollectMap">
+        select *from datacollect where dacname=#{dacname}
+    </select>
+</mapper>

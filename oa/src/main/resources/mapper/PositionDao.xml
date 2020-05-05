@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuyang.position.dao.PositionDao">
+
+    <resultMap type="com.fuyang.bean.Position" id="PositionMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="selectAll" resultMap="PositionMap">
+        select* from position
+    </select>
+    <select id="selectPositionById" parameterType="int" resultType="Position">
+        select *from position where id=#{id}
+    </select>
+</mapper>

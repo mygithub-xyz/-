@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuyang.source.dao.SourcesDao">
+
+    <resultMap type="SourcesExtends" id="SourcesMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="url" column="url" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="pid" column="pid" jdbcType="INTEGER"/>
+        <result property="icon" column="icon" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!--查询单个-->
+    <select id="selectSource" resultType="SourcesExtends">
+        select
+          id, name, url, remark, pid, icon
+        from crmpro.sources
+        where pid = #{id}
+    </select>
+    <!--查询roleid中间表权限-->
+    <select id="selectRoleSource" resultType="RoleSources">
+        select *from role_sources where roleid=#{roleid}
+    </select>
+    <!--往中间表插入权限-->
+    <insert id="batchInsert" parameterType="map">
+        insert into role_sources(rsdis,sid,roleid)
+        <foreach collection="list" item="rs" open="values " separator=",">
+            (#{rs.rsdis},#{rs.sid},#{rs.roleid})
+        </foreach>
+    </insert>
+    <!--按照角色id删除权限数据-->
+    <delete id="deleteByRoleid" parameterType="int">
+		delete from role_sources where roleid = #{roleid}
+	</delete>
+    <!--插入资源信息-->
+   <insert id="insert" parameterType="Sources">
+       insert into sources(name,url,remark,pid)
+       value (#{name},#{url},#{remark},#{pid})
+    </insert>
+    <!--通过id查询资源信息-->
+    <select id="querySourceById" parameterType="int" resultType="Sources">
+        select *from sources where id=#{id}
+    </select>
+    <!--修改资源信息-->
+    <update id="update" parameterType="Sources" >
+        update sources set name=#{name},url=#{url},remark=#{remark},pid=#{pid} where id=#{id}
+    </update>
+    <!--删除资源信息-->
+    <delete id="deleteById" parameterType="int">
+        delete from sources where id=#{id}
+    </delete>
+    <!--查询父资源id=1-->
+    <select id="selectSourcesByRid" resultMap="SourcesMap">
+        SELECT *from sources where pid=#{i} and id IN(select sid from role_sources where roleid=#{roleid})
+    </select>
+</mapper>

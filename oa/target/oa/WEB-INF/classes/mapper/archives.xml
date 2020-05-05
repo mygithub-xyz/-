@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 直接使用代理的方式 -->
+<mapper namespace="com.fuyang.archives.dao.ArchivesDao">
+    <insert id="insertList" parameterType="map">
+        /*收到一组要保存的数据*/
+        /*INSERT INTO archives VALUES(第一组值),(第二组值),(第三组值),.....*/
+        INSERT INTO archives
+        <foreach collection="list" item="arch" open="VALUES" separator=",">
+            (#{arch.dnum},#{arch.landline},#{arch.school},#{arch.zhuanye},#{arch.sosperson},#{arch.biyedate},#{arch.zzmm},#{arch.minzu},#{arch.xueli},#{arch.email},#{arch.empFk},#{arch.remark},#{arch.hirdate})
+        </foreach>
+    </insert>
+</mapper>
