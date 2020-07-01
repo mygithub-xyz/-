@@ -36,7 +36,7 @@
         <jedis-version>2.9.0</jedis-version>
         <java-mail-version>1.4.6</java-mail-version>
         <activation-version>1.1.1</activation-version>
-        <quartz-version>2.3.0</quartz-version>
+        <quartz-version>2.3.2</quartz-version>
     </properties>
     <dependencies>
         <!--springmvc框架-->
